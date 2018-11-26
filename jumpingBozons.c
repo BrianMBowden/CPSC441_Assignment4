@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "jumpingBozons.h"
+#include "numberGen.h"
 
 int main(int argc, char** argv){
 

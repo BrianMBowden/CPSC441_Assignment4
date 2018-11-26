@@ -1,5 +1,8 @@
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
+
+#include "numberGen.h"
 
 double uniform01(){
 
@@ -30,6 +33,6 @@ double Exponential(double mu){
     randnum = uniform01();
 #endif
 
-    answer = -(mu)*log(randnum);
+    answer = -(mu) * log(randnum);
     return answer;
 }
