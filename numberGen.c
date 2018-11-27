@@ -16,8 +16,8 @@ double uniform01(){
 double seedUniform01(){
 
     double randnum;
-    srand(time(NULL));
-    randnum = (double) 1.0 * rand();
+    srandom(time(NULL));
+    randnum = (double) 1.0 * random();
     randnum /= (1.0 * MAX_INT);
     return randnum;
 }
