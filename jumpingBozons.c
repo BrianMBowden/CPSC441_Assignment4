@@ -13,6 +13,7 @@ struct Bozon{
     double yodel_time; 
     double sleep_start;
     double yodel_start;
+    int sleeping;
 };
 
 int main(int argc, char** argv){
@@ -26,12 +27,17 @@ int main(int argc, char** argv){
 
     /* Time Variables */
     double start = START;
+    double time_silent = 0.0;
+    double time_harmonious = 0.0;
+    double time_screechy = 0.0;
 
     /* Bozon Colony */
     struct Bozon *colony;
 
     /* Helper Variables */
     int i;
+    int yodelling = 0;
+    int sleeping = 0;
 
     /* Start Up */
     if (argc == 1){
@@ -67,15 +73,45 @@ int main(int argc, char** argv){
         colony[i].sleep_time = Exponential(args_notprovided[1]);
         colony[i].yodel_time = Exponential(args_notprovided[2]);
         colony[i].sleep_start = START;
-        colony[i].yodel_start = colony[i].sleep_time;
+//        colony[i].yodel_start = colony[i].sleep_time;
+        colony[i].sleeping = 1;
         printf("Bozon ID: %d || Sleeps for: %lf || Yodels for: %lf\n", colony[i].name, colony[i].sleep_time, colony[i].yodel_time);
     }
 
     for (;start < MAX_TIME; (start += TIME_INC)){
+        printf("the time is: %lf\n", start);
         for (i = 0; i < colony_size; i++){
-            
+            if (colony[i].sleeping){
+                if (colony[i].sleep_start + colony[i].sleep_time <= start){
+                    //wake it up, start yodelling
+                    colony[i].sleeping = 0;
+                    colony[i].yodel_start = start;
+                    yodelling--;
+                }
+                printf("Bozon %d is sleeping\n", colony[i].name);
+            }
+            else{
+                // must be yodelling
+                if ((colony[i].yodel_start + colony[i].yodel_time) <= start){
+                //done yodelling, go to bed, update time
+                    colony[i].sleeping = 1;
+                    colony[i].sleep_start = start;
+                    yodelling++;
+                }
+                printf("Bozon %d is yodelling\n", colony[i].name);
+            } 
+        }
+        if (yodelling == 0){
+            time_silent += start;
+        }
+        else if (yodelling == 1){
+            time_harmonious += start;
+        }
+        else{
+            time_screechy += start;
         }
     }
+    
 
     return 0;
 }
