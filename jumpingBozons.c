@@ -75,7 +75,9 @@ int main(int argc, char** argv){
         colony[i].sleep_start = START;
 //        colony[i].yodel_start = colony[i].sleep_time;
         colony[i].sleeping = 1;
+#if __DEBUG
         printf("Bozon ID: %d || Sleeps for: %lf || Yodels for: %lf\n", colony[i].name, colony[i].sleep_time, colony[i].yodel_time);
+#endif
     }
 
     for (;start < MAX_TIME; (start += TIME_INC)){
@@ -112,7 +114,12 @@ int main(int argc, char** argv){
         }
     }
 
-    printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\nTotal time elapsed: %lf\n", time_silent, time_harmonious, time_screechy, start);
+    printf("Time elapsed:     %lf\n", start);
+    printf("Time silent:      %lf || (%lf%%)\n", time_silent, 100.0*time_silent/start);
+    printf("Time harmonious:  %lf || (%lf%%)\n", time_harmonious, 100.0*time_harmonious/start);
+    printf("Time screechy:    %lf || (%lf%%)\n", time_screechy, 100.0*time_screechy/start);
+
+    //printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\nTotal time elapsed: %lf\n", time_silent, time_harmonious, time_screechy, start);
     
 
     return 0;
