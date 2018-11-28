@@ -79,16 +79,16 @@ int main(int argc, char** argv){
     }
 
     for (;start < MAX_TIME; (start += TIME_INC)){
-        printf("the time is: %lf\n", start);
+        //printf("the time is: %lf\n", start);
         for (i = 0; i < colony_size; i++){
             if (colony[i].sleeping){
                 if (colony[i].sleep_start + colony[i].sleep_time <= start){
                     //wake it up, start yodelling
                     colony[i].sleeping = 0;
                     colony[i].yodel_start = start;
-                    yodelling--;
+                    yodelling++;
                 }
-                printf("Bozon %d is sleeping\n", colony[i].name);
+                //printf("Bozon %d is sleeping\n", colony[i].name);
             }
             else{
                 // must be yodelling
@@ -96,9 +96,9 @@ int main(int argc, char** argv){
                 //done yodelling, go to bed, update time
                     colony[i].sleeping = 1;
                     colony[i].sleep_start = start;
-                    yodelling++;
+                    yodelling--;
                 }
-                printf("Bozon %d is yodelling\n", colony[i].name);
+                //printf("Bozon %d is yodelling\n", colony[i].name);
             } 
         }
         if (yodelling == 0){
@@ -111,6 +111,8 @@ int main(int argc, char** argv){
             time_screechy += start;
         }
     }
+
+    printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\n", time_silent/start, time_harmonious/start, time_screechy/start);
     
 
     return 0;
