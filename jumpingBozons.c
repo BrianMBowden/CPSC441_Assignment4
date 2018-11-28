@@ -102,17 +102,17 @@ int main(int argc, char** argv){
             } 
         }
         if (yodelling == 0){
-            time_silent += start;
+            time_silent += TIME_INC;
         }
         else if (yodelling == 1){
-            time_harmonious += start;
+            time_harmonious += TIME_INC;
         }
         else{
-            time_screechy += start;
+            time_screechy += TIME_INC;
         }
     }
 
-    printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\n", time_silent/start, time_harmonious/start, time_screechy/start);
+    printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\nTotal time elapsed: %lf\n", time_silent, time_harmonious, time_screechy, start);
     
 
     return 0;
