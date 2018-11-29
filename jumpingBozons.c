@@ -14,16 +14,13 @@ struct Bozon{
     double sleep_start;
     double yodel_start;
     int sleeping;
+    short perfect;
 };
 
 int main(int argc, char** argv){
 
     double args_notprovided[3]; //M, S, Y
     int colony_size;
-
-    /* Exponential Variables */
-    double random_yodel;
-    double random_sleep;
 
     /* Time Variables */
     double start = START;
@@ -37,8 +34,8 @@ int main(int argc, char** argv){
     /* Helper Variables */
     int i;
     int yodelling = 0;
-    int sleeping = 0;
     int attempted_yodels = 0;
+    int perfect_yodels = 0;
 
     /* FILE I/O */
     FILE *fp;
@@ -91,21 +88,31 @@ int main(int argc, char** argv){
                     colony[i].sleeping = 0;
                     colony[i].yodel_start = start;
                     colony[i].yodel_time = Exponential(args_notprovided[2]);
+                    colony[i].perfect = 1;
                     yodelling++;
                     attempted_yodels++;
+                    perfect_yodels++;
                 }
             }
             else{
                 // must be yodelling
+                if (yodelling > 2){
+                    colony[i].perfect = 0;
+                }
                 if ((colony[i].yodel_start + colony[i].yodel_time) <= start){
                     //done yodelling, go to bed, update time
                     colony[i].sleeping = 1;
                     colony[i].sleep_start = start;
                     colony[i].sleep_time = Exponential(args_notprovided[1]);
+                    if (!colony[i].perfect){
+                        perfect_yodels--;
+                    }  
+                    colony[i].perfect = 0;
                     yodelling--;
                 }
-            } 
+            }
         }
+
         if (yodelling == 0){
             time_silent += TIME_INC;
         }
@@ -122,11 +129,16 @@ int main(int argc, char** argv){
     printf("Time harmonious:  %lf || (%lf%%)\n", time_harmonious, 100.0*time_harmonious/start);
     printf("Time screechy:    %lf || (%lf%%)\n", time_screechy, 100.0*time_screechy/start);
     printf("Attempted yodels: %d\n", attempted_yodels);
+    printf("Perfect yodels:   %d\n", perfect_yodels);
 
     //printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\nTotal time elapsed: %lf\n", time_silent, time_harmonious, time_screechy, start);
     /* Write data to file */
     //            M   S   Y S_t H_t C_t
-    fprintf(fp, "%d|%lf|%lf|%lf|%lf|%lf\n", colony_size, args_notprovided[1], args_notprovided[2], 100.0*time_silent/start, 100*time_harmonious/start, 100*time_screechy/start);    
+    //fprintf(fp, "%d|%lf|%lf|%lf|%lf|%lf\n", colony_size, args_notprovided[1], args_notprovided[2], 100.0*time_silent/start, 100*time_harmonious/start, 100*time_screechy/start);    
+
+    fprintf(fp, "%d|%lf|%lf|", colony_size, args_notprovided[1], args_notprovided[2]);
+    fprintf(fp, "%lf|%lf|%lf|", 100.0*time_silent/start, 100*time_harmonious/start, 100*time_screechy/start);
+    fprintf(fp, "%d|%d\n", attempted_yodels, perfect_yodels);
 
     return 0;
 }
