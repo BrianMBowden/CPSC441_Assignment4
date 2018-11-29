@@ -4,7 +4,7 @@
 #define __DEBUG 0
 
 #define TIME_UNIT HOURS
-#define TIME_INC 60.0000/(0xFF)
+#define TIME_INC 1.0000/10.0000
 #define MAX_TIME 1000000
 #define START 0.0
 

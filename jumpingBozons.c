@@ -57,6 +57,7 @@ int main(int argc, char** argv){
         return 0;
     }
 
+    /* File stuff for populating Excel spreadsheet */
     fp = fopen("./report.txt", "a");
     if (fp == NULL){
         printf("File Usage: File not found or created");
@@ -67,13 +68,6 @@ int main(int argc, char** argv){
 #endif
 
     colony_size = (int)args_notprovided[0];
- //   random_sleep = Exponential(args_notprovided[1]);
- //   random_yodel = Exponential(args_notprovided[2]);
-
-#if __DEBUG
-    //printf("M= %d \tS_mu= %lf \tY_mu = %lf \n", colony_size, random_sleep, random_yodel);
-#endif
-
     colony = (struct Bozon*)malloc(colony_size * sizeof(struct Bozon));
 
     /* Initialize Colony */ 
@@ -82,7 +76,6 @@ int main(int argc, char** argv){
         colony[i].sleep_time = Exponential(args_notprovided[1]);
         colony[i].yodel_time = Exponential(args_notprovided[2]);
         colony[i].sleep_start = START;
-//        colony[i].yodel_start = colony[i].sleep_time;
         colony[i].sleeping = 1;
 #if __DEBUG
         printf("Bozon ID: %d || Sleeps for: %lf || Yodels for: %lf\n", colony[i].name, colony[i].sleep_time, colony[i].yodel_time);
@@ -93,24 +86,24 @@ int main(int argc, char** argv){
         //printf("the time is: %lf\n", start);
         for (i = 0; i < colony_size; i++){
             if (colony[i].sleeping){
-                if (colony[i].sleep_start + colony[i].sleep_time <= start){
+                if ((colony[i].sleep_start + colony[i].sleep_time) <= start){
                     //wake it up, start yodelling
                     colony[i].sleeping = 0;
                     colony[i].yodel_start = start;
+                    colony[i].yodel_time = Exponential(args_notprovided[2]);
                     yodelling++;
                     attempted_yodels++;
                 }
-                //printf("Bozon %d is sleeping\n", colony[i].name);
             }
             else{
                 // must be yodelling
                 if ((colony[i].yodel_start + colony[i].yodel_time) <= start){
-                //done yodelling, go to bed, update time
+                    //done yodelling, go to bed, update time
                     colony[i].sleeping = 1;
                     colony[i].sleep_start = start;
+                    colony[i].sleep_time = Exponential(args_notprovided[1]);
                     yodelling--;
                 }
-                //printf("Bozon %d is yodelling\n", colony[i].name);
             } 
         }
         if (yodelling == 0){
