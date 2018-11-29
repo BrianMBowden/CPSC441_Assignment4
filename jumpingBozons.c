@@ -96,7 +96,7 @@ int main(int argc, char** argv){
             }
             else{
                 // must be yodelling
-                if (yodelling > 2){
+                if (yodelling > 1){
                     colony[i].perfect = 0;
                 }
                 if ((colony[i].yodel_start + colony[i].yodel_time) <= start){
