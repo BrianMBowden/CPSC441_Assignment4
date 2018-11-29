@@ -1,0 +1,3 @@
+Colony Size|Avg Sleep Time|Avg Yodel Time|Time Silent %|Time Melodius %|Time Screechy %|Attempted Yodels|Perfect Yodels 
+5|10.000000|10.000000|3.064390|15.598778|81.336832|248502|288
+5|100.000000|10.000000|62.027754|31.073607|6.898639|45236|20720

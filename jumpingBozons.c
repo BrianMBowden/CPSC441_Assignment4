@@ -55,7 +55,11 @@ int main(int argc, char** argv){
     }
 
     /* File stuff for populating Excel spreadsheet */
+#if __BONUS
+    fp = fopen("./bonus.txt", "a");
+#else
     fp = fopen("./report.txt", "a");
+#endif
     if (fp == NULL){
         printf("File Usage: File not found or created");
     }
@@ -71,7 +75,11 @@ int main(int argc, char** argv){
     for (i = 0; i < colony_size; i++){
         colony[i].name = i;
         colony[i].sleep_time = Exponential(args_notprovided[1]);
+#if __BONUS
+        colony[i].yodel_time = 10.0;
+#else
         colony[i].yodel_time = Exponential(args_notprovided[2]);
+#endif
         colony[i].sleep_start = START;
         colony[i].sleeping = 1;
 #if __DEBUG
@@ -87,7 +95,11 @@ int main(int argc, char** argv){
                     //wake it up, start yodelling
                     colony[i].sleeping = 0;
                     colony[i].yodel_start = start;
+#if __BONUS
+                    colony[i].yodel_time = 10.0;
+#else
                     colony[i].yodel_time = Exponential(args_notprovided[2]);
+#endif
                     colony[i].perfect = 1;
                     yodelling++;
                     attempted_yodels++;
