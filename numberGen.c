@@ -1,6 +1,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "numberGen.h"
 

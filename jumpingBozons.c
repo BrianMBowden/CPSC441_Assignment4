@@ -38,6 +38,10 @@ int main(int argc, char** argv){
     int i;
     int yodelling = 0;
     int sleeping = 0;
+    int attempted_yodels = 0;
+
+    /* FILE I/O */
+    FILE *fp;
 
     /* Start Up */
     if (argc == 1){
@@ -51,6 +55,11 @@ int main(int argc, char** argv){
     else{
         printf("Usage: arguments provided not zero or three\n");
         return 0;
+    }
+
+    fp = fopen("./report.txt", "a");
+    if (fp == NULL){
+        printf("File Usage: File not found or created");
     }
 
 #if __DEBUG
@@ -89,6 +98,7 @@ int main(int argc, char** argv){
                     colony[i].sleeping = 0;
                     colony[i].yodel_start = start;
                     yodelling++;
+                    attempted_yodels++;
                 }
                 //printf("Bozon %d is sleeping\n", colony[i].name);
             }
@@ -118,9 +128,12 @@ int main(int argc, char** argv){
     printf("Time silent:      %lf || (%lf%%)\n", time_silent, 100.0*time_silent/start);
     printf("Time harmonious:  %lf || (%lf%%)\n", time_harmonious, 100.0*time_harmonious/start);
     printf("Time screechy:    %lf || (%lf%%)\n", time_screechy, 100.0*time_screechy/start);
+    printf("Attempted yodels: %d\n", attempted_yodels);
 
     //printf("Time spent silent: %lf\nTime spent harmonious: %lf\nTime spent screechy: %lf\nTotal time elapsed: %lf\n", time_silent, time_harmonious, time_screechy, start);
-    
+    /* Write data to file */
+    //            M   S   Y S_t H_t C_t
+    fprintf(fp, "%d|%lf|%lf|%lf|%lf|%lf\n", colony_size, args_notprovided[1], args_notprovided[2], 100.0*time_silent/start, 100*time_harmonious/start, 100*time_screechy/start);    
 
     return 0;
 }
