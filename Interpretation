@@ -1,0 +1,13 @@
+Interpretation of results:
+
+Standard:
+    Examination of the graphs from some test data would imply that colony size kept to a lower amount (14 < n < 24)
+    yields the most desired results. We can observe that (given set S and Y values, as a function of colony size)  
+    these colony sizes give us the most harmonious yodels and lowest silent and screechy times by comparison. 
+    Small colony size tells us that most of the time the colony is sleeping (wasted traffic). Large colony size 
+    tells us that most of the time is spent screechy (noisy traffic). Optimal results occur around a colony size of 
+    16.
+
+Bonus:
+    Similar results as above, however, the graph tends to the left side more, so the colony size size is smaller for 
+    Optimal results. Also, the the rate at which time spent screechy is a much steeper curve. 
